@@ -1,11 +1,15 @@
-import {getData} from './api.js';
+
 import {createCard} from './create-popup.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const GET_URL = 'https://29.javascript.pages.academy/keksobooking/data';
 const MAP_ZOOM = 13;
 const DECIMALS = 5;
+
+const PIN_URL = './img/pin.svg';
+const PIN_SIZE = 40;
+const MAIN_PIN_URL = './img/main-pin.svg';
+const MAIN_PIN_SIZE = 52;
 
 const START_COORDINATE = {
   lat: 35.66023,
@@ -14,15 +18,12 @@ const START_COORDINATE = {
 
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
-
 const addressInput = document.querySelector('#address');
 
-let interactiveMarker;
-
-const icon = L.icon ({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
+const createIcon = (url, size) => L.icon({
+  iconUrl: url,
+  iconSize: [size, size],
+  iconAnchor: [size / 2, size],
 });
 
 const setStartAddressValue = () => {
@@ -34,55 +35,50 @@ const setLocation = (target) => {
   addressInput.value = `${location.lat.toFixed(DECIMALS)}, ${location.lng.toFixed(DECIMALS)}`;
 };
 
+const mainPinMarker = L.marker(START_COORDINATE, {
+  draggable: true,
+  icon: createIcon(MAIN_PIN_URL, MAIN_PIN_SIZE)
+}).on('moveend', (evt) => {
+  setLocation(evt.target.getLatLhg());
+});
+
+const resetMainPinMarker = () => {
+  mainPinMarker.setLatLng();
+  setStartAddressValue();
+};
+
 const createPinMarkers = (data) => {
-  markerGroup.addTo(map);
+  markerGroup.clearLayers();
   data.forEach((offer) => {
-    const marker = L.marker(offer.location,
-      {
-        icon,
-      }
-    );
-    marker.addTo(markerGroup).bindPopup(createCard(offer));
+    const marker = L.marker(offer.location, {
+      icon: createIcon(PIN_URL, PIN_SIZE),
+    });
+    marker
+      .addTo(markerGroup)
+      .bindPopup(createCard(offer))
+      .on('click', () => {//убрать
+        console.log(offer);
+      });
   });
 };
 
-const onMarkerMove = (evt) => setLocation(evt.target);
-
 const resetMap = () => {
-  interactiveMarker.setLatLng(START_COORDINATE);
+  resetMainPinMarker();
 };
 
-const onSuccess = (data) => {
-  createPinMarkers(data);
-};
+const initMap = () => new Promise((resolve) => {
 
-const onError = () => {
-  console.log('ошибка');
-};
-
-const initMap = () => {
   map.on('load', () => {
+    resolve(true);
     console.log('Карта инициализирована');
-    getData(GET_URL, onSuccess, onError);
     setStartAddressValue(START_COORDINATE);
   })
     .setView(START_COORDINATE, MAP_ZOOM);
 
-  L.tileLayer(TILE_LAYER, {
-    attribution: COPYRIGHT})
+  L.tileLayer(TILE_LAYER, {attribution: COPYRIGHT})
     .addTo(map);
 
-  interactiveMarker = L.marker(START_COORDINATE,
-    {
-      draggable: true,
-      icon: L.icon({
-        iconUrl: './img/main-pin.svg',
-        iconSize: [52, 52],
-        iconAnchor: [26, 52],
-      }),
-    }).addTo(map);
+  mainPinMarker.addTo(map);
+});
 
-  interactiveMarker.on('move', onMarkerMove);
-};
-
-export {initMap, resetMap};
+export {initMap, resetMap, createPinMarkers};

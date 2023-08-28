@@ -1,19 +1,18 @@
-// import {GET_URL} from './const.js';
+const GET_URL = 'https://29.javascript.pages.academy/keksobooking/data';
 
-// const getData = () => fetch(GET_URL);
-
-// export {getData};
-
-const getData = (url, onSuccess, onError) => {
-  fetch(url)
-    .then((response) => response.json())
-    .then((result) => {
-      onSuccess(result);
+const getData = () =>
+  fetch(GET_URL)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error;
+      }
     })
     .catch(() => {
-      onError();
+      // onError();
+      throw new Error;
     });
-};
 
 const sendData = (url, onSuccess, onError, body) => {
   fetch(url, {
@@ -32,4 +31,4 @@ const sendData = (url, onSuccess, onError, body) => {
     });
 };
 
-export {getData, sendData};
+export { getData, sendData };
