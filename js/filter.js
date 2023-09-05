@@ -1,7 +1,10 @@
 import {createPinMarkers} from './render-map.js';
+import {debounce} from './utils.js';
 
 const filterForm = document.querySelector('.map__filters');
-const featuresCheckboxes = document.querySelector('.map__checkbox');
+const featuresCheckboxes = document.querySelectorAll('.map__checkbox');
+const mapFilters = document.querySelectorAll('.map__filter');
+const mapFeatures = document.querySelector('.map__features');
 
 const model = {
   features: []
@@ -57,14 +60,26 @@ const getFilteredPoint = (data, filter) => {
 
 const filterPlaces = () => Object.keys(model).reduce((acc, item) => getFilteredPoint(acc, item), places.slice());
 
-filterForm.addEventListener('change', (evt) => {
+filterForm.addEventListener('change', debounce((evt) => {
   updateModel(evt.target.name, evt.target.value);
   createPinMarkers(filterPlaces().slice(0, 10));
-});
+}, 500));
 
 const setFilters = (data) => {
   places.push(...data.slice());
   createPinMarkers(places.slice(0, 10));
 };
 
-export {setFilters};
+const disableFilters = (isDisabled = true) => {
+  if (isDisabled) {
+    filterForm.classList.add('map__filters--disabled');
+  } else {
+    filterForm.classList.remove('map__filters--disabled');
+  }
+  mapFilters.forEach((item) => {
+    item.disabled = isDisabled;
+  });
+  mapFeatures.disabled = isDisabled;
+} ;
+
+export {setFilters, disableFilters};

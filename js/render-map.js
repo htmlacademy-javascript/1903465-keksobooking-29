@@ -30,17 +30,17 @@ const setStartAddressValue = () => {
   addressInput.value = `${START_COORDINATE.lat}, ${START_COORDINATE.lng}`;
 };
 
-const setLocation = (target) => {
-  const location = target.getLatLhg();
+const setLocation = (location) => {
   addressInput.value = `${location.lat.toFixed(DECIMALS)}, ${location.lng.toFixed(DECIMALS)}`;
 };
 
 const mainPinMarker = L.marker(START_COORDINATE, {
   draggable: true,
   icon: createIcon(MAIN_PIN_URL, MAIN_PIN_SIZE)
-}).on('moveend', (evt) => {
-  setLocation(evt.target.getLatLhg());
-});
+})
+  .on('moveend', (evt) => {
+    setLocation(evt.target.getLatLng());
+  });
 
 const resetMainPinMarker = () => {
   mainPinMarker.setLatLng();

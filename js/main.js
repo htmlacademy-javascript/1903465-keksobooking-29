@@ -1,15 +1,17 @@
 import { initMap } from './render-map.js';
-import { setFilters } from './filter.js';
-
+import { setFilters, disableFilters } from './filter.js';
+import {disableAdForm} from './form.js';
 import { getData } from './api.js';
 
+disableAdForm();
+disableFilters();
 
-//заблокировать форму
-//заблокировать фильтр
 initMap()
   .then(() => {
+    disableAdForm(false);
     getData()
       .then((data) => {
+        disableFilters(false);
         setFilters(data);
       })
       .catch();
