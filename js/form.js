@@ -1,4 +1,5 @@
 import {validateAdForm} from './validate-form.js';
+import {initPriceSlider, setPriceSliderValue} from './price-slider.js';
 
 const adForm = document.querySelector('.ad-form');
 const adFormHeaderFieldset = document.querySelector('.ad-form-header');
@@ -16,9 +17,14 @@ const disableAdForm = (isDisabled = true) => {
   });
 };
 
+initPriceSlider();
+setPriceSliderValue();
+
 adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  console.log('123');
   if (!validateAdForm()) {
-    evt.preventDefault();
+    console.log('not valid form');
   }
 });
 

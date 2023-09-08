@@ -19,6 +19,15 @@ const guestsInRooms = {
   100: ['0']
 };
 
+const typesToPrices = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+  max: 100000,
+};
+
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -31,9 +40,9 @@ const validateTitle = (value) => value.length >= TitleLimitsLength.MIN && value.
 
 const getTitleMessage = () => `Длина строки должна быть в диапазоне от ${TitleLimitsLength.MIN} до ${TitleLimitsLength.MAX}`;
 
-const validatePrice = (price) => Number(price) >= priceField.min;
+const validatePrice = (value) => value >= typesToPrices[typeField.value] && value <= typesToPrices.max;
 
-const getPriceMessage = () => `От ${priceField.min} до ${priceField.max}`;
+const getPriceMessage = () => `Минимальная стоимость для выбранного типа жилья ${typesToPrices[typeField.value]} руб.`;
 
 const validateCapacity = (capacity) => guestsInRooms[roomsField.value].includes(capacity);
 
@@ -50,17 +59,19 @@ const onCheckoutChange = () => {
   checkoutField.value = checkinField.value;
 };
 
-const initAdFormValidator = () => {
-  checkinField.addEventListener('change', onCheckoutChange);
-  checkoutField.addEventListener('change', onCheckinChange);
+checkinField.addEventListener('change', onCheckoutChange);
+checkoutField.addEventListener('change', onCheckinChange);
 
-  pristine.addValidator(titleField, validateTitle, getTitleMessage);
-  pristine.addValidator(priceField, validatePrice, getPriceMessage);
-  pristine.addValidator(capacityField, validateCapacity, getCapacityMessage);
-};
+pristine.addValidator(titleField, validateTitle, getTitleMessage);
+pristine.addValidator(priceField, validatePrice, getPriceMessage);
+pristine.addValidator(capacityField, validateCapacity, getCapacityMessage);
+
+roomsField.addEventListener('change', () => {
+  pristine.validate(capacityField);
+});
 
 const validateAdForm = () => pristine.validate();
 
 const pristineReset = () => pristine.reset();
 
-export {initAdFormValidator, validateAdForm, pristineReset};
+export {validateAdForm, pristineReset};

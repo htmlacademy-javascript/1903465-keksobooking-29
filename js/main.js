@@ -1,7 +1,7 @@
-import { initMap } from './render-map.js';
-import { setFilters, disableFilters } from './filter.js';
+import {initMap} from './render-map.js';
+import {setFilters, disableFilters} from './filter.js';
 import {disableAdForm} from './form.js';
-import { getData } from './api.js';
+import {getData} from './api.js';
 
 disableAdForm();
 disableFilters();
