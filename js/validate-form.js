@@ -70,6 +70,11 @@ roomsField.addEventListener('change', () => {
   pristine.validate(capacityField);
 });
 
+typeField.addEventListener('change', () => {
+  pristine.validate(priceField);
+  priceField.placeholder = typesToPrices[typeField.value];
+});
+
 const validateAdForm = () => pristine.validate();
 
 const pristineReset = () => pristine.reset();

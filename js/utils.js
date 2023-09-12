@@ -1,3 +1,5 @@
+const isEscapeKey = (event) => event.key === 'Escape';
+
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
 
@@ -7,4 +9,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export {debounce};
+export {isEscapeKey,debounce};

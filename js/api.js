@@ -31,4 +31,4 @@ const sendData = (url, onSuccess, onError, body) => {
     });
 };
 
-export { getData, sendData };
+export {getData, sendData};

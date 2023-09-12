@@ -1,13 +1,5 @@
 const PRICE_STEP = 1;
 
-// const minPriceSettings = {
-//   palace: 10000,
-//   flat: 1000,
-//   house: 5000,
-//   bungalow: 0,
-//   hotel: 3000,
-// };
-
 const priceField = document.querySelector('#price');
 const slider = document.querySelector('.ad-form__slider');
 
@@ -29,16 +21,11 @@ const initPriceSlider = () => {
     const price = Number(slider.noUiSlider.get());
     priceField.value = price;
   });
+  priceField.addEventListener('input', (evt) => {
+    slider.noUiSlider.set(evt.target.value);
+  });
 };
 
-const setPriceSliderValue = (value) => {
-  slider.noUiSlider.set(value);
-};
+const resetSlider = () => slider.noUiSlider.reset();
 
-const onPriceFieldInput = (event) => {
-  setPriceSliderValue(event.target.value);
-};
-
-priceField.addEventListener('change', onPriceFieldInput);
-
-export {initPriceSlider, setPriceSliderValue};
+export {initPriceSlider, resetSlider};

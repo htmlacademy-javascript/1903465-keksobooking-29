@@ -82,4 +82,8 @@ const disableFilters = (isDisabled = true) => {
   mapFeatures.disabled = isDisabled;
 } ;
 
-export {setFilters, disableFilters};
+const resetFilters = () => {
+  filterForm.reset();
+};
+
+export {setFilters, disableFilters, resetFilters};
