@@ -43,7 +43,7 @@ const mainPinMarker = L.marker(START_COORDINATE, {
   });
 
 const resetMainPinMarker = () => {
-  mainPinMarker.setLatLng();
+  mainPinMarker.setLatLng(START_COORDINATE);
   setStartAddressValue();
 };
 
@@ -81,4 +81,4 @@ const initMap = () => new Promise((resolve) => {
   mainPinMarker.addTo(map);
 });
 
-export {initMap, resetMap, createPinMarkers};
+export {initMap, resetMap, createPinMarkers, resetMainPinMarker};

@@ -4,7 +4,7 @@ import {renderUploadImage} from './upload-image.js';
 import {sendData} from './api.js';
 import {renderMessage} from './render-message.js';
 import {resetFilters} from './filter.js';
-import {resetMap} from './render-map.js';
+import {resetMap, resetMainPinMarker} from './render-map.js';
 
 const AVATAR_URL_DEFAULT = 'img/muffin-grey.svg';
 const SUCCESS_STATE = 'success';
@@ -64,7 +64,12 @@ const resetForm = () => {
   resetSlider();
   resetAvatarPreview();
   resetImagesPreview ();
+  resetMainPinMarker();
 };
+
+resetButton.addEventListener('click', () => {
+  resetForm();
+});
 
 const setSubmitButtonStatus = (state) => {
   submitButton.disabled = state;

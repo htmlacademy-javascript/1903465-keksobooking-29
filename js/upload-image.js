@@ -1,8 +1,8 @@
-// import {renderMessage} from '../utils/messages.js';
+import {renderMessage} from './render-message.js';
 
 const FILE_TYPES = ['.gif', '.jpg', '.jpeg', '.png', '.webp'];
-// const ERROR_STATE = 'error';
-// const ERROR_MESSAGE = 'Неверный формат файла!';
+const ERROR_STATE = 'error';
+const ERROR_MESSAGE = 'Неверный формат файла!';
 
 const renderUploadImage = (target, preview) => {
   const file = target.files[0];
@@ -12,11 +12,8 @@ const renderUploadImage = (target, preview) => {
   if (matches) {
     const url = URL.createObjectURL(file);
     preview.src = url;
-    // preview.style.width = '70px';
-    // preview.style.height = '70px';
-    // preview.alt = 'Фотография жилья.';
   }
-  // renderMessage(ERROR_STATE, ERROR_MESSAGE);
+  renderMessage(ERROR_STATE, ERROR_MESSAGE);
 };
 
 export {renderUploadImage};
