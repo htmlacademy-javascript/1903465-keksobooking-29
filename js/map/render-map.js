@@ -1,4 +1,3 @@
-
 import {createCard} from './create-popup.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -44,7 +43,7 @@ const mainPinMarker = L.marker(START_COORDINATE, {
 
 const resetMainPinMarker = () => {
   mainPinMarker.setLatLng(START_COORDINATE);
-  setStartAddressValue();
+  setStartAddressValue(START_COORDINATE);
 };
 
 const createPinMarkers = (data) => {
@@ -63,22 +62,24 @@ const createPinMarkers = (data) => {
 };
 
 const resetMap = () => {
-  resetMainPinMarker();
+  map.setView(START_COORDINATE, MAP_ZOOM);
+  map.closePopup();
 };
 
-const initMap = () => new Promise((resolve) => {
+const initMap = () =>
+  new Promise((resolve) => {
+    map
+      .on('load', () => {
+        resolve(true);
+        console.log('Карта инициализирована');
+        setStartAddressValue(START_COORDINATE);
+      })
+      .setView(START_COORDINATE, MAP_ZOOM);
+    L.tileLayer(TILE_LAYER, {
+      attribution: COPYRIGHT
+    }).addTo(map);
 
-  map.on('load', () => {
-    resolve(true);
-    console.log('Карта инициализирована');
-    setStartAddressValue(START_COORDINATE);
-  })
-    .setView(START_COORDINATE, MAP_ZOOM);
-
-  L.tileLayer(TILE_LAYER, {attribution: COPYRIGHT})
-    .addTo(map);
-
-  mainPinMarker.addTo(map);
-});
+    mainPinMarker.addTo(map);
+  });
 
 export {initMap, resetMap, createPinMarkers, resetMainPinMarker};

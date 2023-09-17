@@ -29,23 +29,23 @@ const closeMessage = () => {
     document.body.classList.remove('modal-open');
   }
 
-  document.removeEventListener('keydown', documentKeydownHandler);
+  document.removeEventListener('keydown', onDocumentKeydown);
   modal.remove();
 };
 
-function documentKeydownHandler(event) {
+function onDocumentKeydown(event) {
   if (isEscapeKey(event)) {
     event.preventDefault();
     closeMessage();
   }
 }
 
-const submitButtonClickHandler = (event) => {
+const onSubmitButtonClick = (event) => {
   event.preventDefault();
   closeMessage();
 };
 
-const messageContainerClickHandler = (event, state) => {
+const onMessageContainerClick = (event, state) => {
   if (!event.target.closest(`.${state}__inner`)) {
     closeMessage();
   }
@@ -56,13 +56,13 @@ const renderMessage = (state, message, buttonText) => {
   createDomElement(state, message, buttonText);
 
   if (buttonText) {
-    modal.querySelector(`.${state}__button`).addEventListener('click', submitButtonClickHandler);
+    modal.querySelector(`.${state}__button`).addEventListener('click', onSubmitButtonClick);
   }
 
-  document.addEventListener('keydown', documentKeydownHandler);
+  document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
   modal.addEventListener('click', (event) => {
-    messageContainerClickHandler(event, state);
+    onMessageContainerClick(event, state);
   });
 
   if (!document.body.classList.contains('modal-open')) {

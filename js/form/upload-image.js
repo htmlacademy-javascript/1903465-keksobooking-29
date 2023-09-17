@@ -1,4 +1,4 @@
-import {renderMessage} from './render-message.js';
+import {renderMessage} from '../utils/render-message.js';
 
 const FILE_TYPES = ['.gif', '.jpg', '.jpeg', '.png', '.webp'];
 const ERROR_STATE = 'error';

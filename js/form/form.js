@@ -1,10 +1,10 @@
 import {validateAdForm} from './validate-form.js';
 import {initPriceSlider, resetSlider} from './price-slider.js';
 import {renderUploadImage} from './upload-image.js';
-import {sendData} from './api.js';
-import {renderMessage} from './render-message.js';
-import {resetFilters} from './filter.js';
-import {resetMap, resetMainPinMarker} from './render-map.js';
+import {sendData} from '../utils/api.js';
+import {renderMessage} from '../utils/render-message.js';
+import {resetFilters} from '../map/filter.js';
+import {resetMap, resetMainPinMarker} from '../map/render-map.js';
 
 const AVATAR_URL_DEFAULT = 'img/muffin-grey.svg';
 const SUCCESS_STATE = 'success';

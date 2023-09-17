@@ -1,5 +1,5 @@
 import {createPinMarkers} from './render-map.js';
-import {debounce} from './utils.js';
+import {debounce} from '../utils/utils.js';
 
 const filterForm = document.querySelector('.map__filters');
 const featuresCheckboxes = document.querySelectorAll('.map__checkbox');
