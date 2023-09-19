@@ -1,8 +1,5 @@
 import {renderMessage} from '../utils/render-message.js';
-
-const FILE_TYPES = ['.gif', '.jpg', '.jpeg', '.png', '.webp'];
-const ERROR_STATE = 'error';
-const ERROR_MESSAGE = 'Неверный формат файла!';
+import {FILE_TYPES, ERROR_STATE, ERROR_MESSAGE} from '../utils/constants.js';
 
 const renderUploadImage = (target, preview) => {
   const file = target.files[0];
@@ -12,8 +9,9 @@ const renderUploadImage = (target, preview) => {
   if (matches) {
     const url = URL.createObjectURL(file);
     preview.src = url;
+  } else {
+    renderMessage(ERROR_STATE, ERROR_MESSAGE);
   }
-  renderMessage(ERROR_STATE, ERROR_MESSAGE);
 };
 
 export {renderUploadImage};

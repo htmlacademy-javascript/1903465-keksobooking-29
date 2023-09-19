@@ -1,19 +1,12 @@
 import {createCard} from './create-popup.js';
+import {START_COORDINATE, MapConfig, DECIMALS} from '../utils/constants.js';
 
-const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const MAP_ZOOM = 13;
-const DECIMALS = 5;
+const {TILE_LAYER, COPYRIGHT, MAP_ZOOM} = MapConfig;
 
 const PIN_URL = './img/pin.svg';
 const PIN_SIZE = 40;
 const MAIN_PIN_URL = './img/main-pin.svg';
 const MAIN_PIN_SIZE = 52;
-
-const START_COORDINATE = {
-  lat: 35.66023,
-  lng: 139.73007
-};
 
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
@@ -54,15 +47,13 @@ const createPinMarkers = (data) => {
     });
     marker
       .addTo(markerGroup)
-      .bindPopup(createCard(offer))
-      .on('click', () => {//убрать
-        console.log(offer);
-      });
+      .bindPopup(createCard(offer));
   });
 };
 
 const resetMap = () => {
   map.setView(START_COORDINATE, MAP_ZOOM);
+  resetMainPinMarker();
   map.closePopup();
 };
 
@@ -71,7 +62,6 @@ const initMap = () =>
     map
       .on('load', () => {
         resolve(true);
-        console.log('Карта инициализирована');
         setStartAddressValue(START_COORDINATE);
       })
       .setView(START_COORDINATE, MAP_ZOOM);

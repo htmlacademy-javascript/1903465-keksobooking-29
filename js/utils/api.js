@@ -1,4 +1,4 @@
-const GET_URL = 'https://29.javascript.pages.academy/keksobooking/data';
+import {GET_URL} from '../utils/constants.js';
 
 const getData = () =>
   fetch(GET_URL)
@@ -10,7 +10,6 @@ const getData = () =>
       }
     })
     .catch(() => {
-      // onError();
       throw new Error;
     });
 

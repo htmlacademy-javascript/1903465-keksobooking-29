@@ -77,6 +77,10 @@ typeField.addEventListener('change', () => {
 
 const validateAdForm = () => pristine.validate();
 
+const updatePriceSlider = () => {
+  pristine.validate(priceField);
+};
+
 const pristineReset = () => pristine.reset();
 
-export {validateAdForm, pristineReset};
+export {validateAdForm, updatePriceSlider, pristineReset};

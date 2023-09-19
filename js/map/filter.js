@@ -60,8 +60,8 @@ const getFilteredPoint = (data, filter) => {
 
 const filterPlaces = () => Object.keys(model).reduce((acc, item) => getFilteredPoint(acc, item), places.slice());
 
-filterForm.addEventListener('change', debounce((evt) => {
-  updateModel(evt.target.name, evt.target.value);
+filterForm.addEventListener('change', debounce((event) => {
+  updateModel(event.target.name, event.target.value);
   createPinMarkers(filterPlaces().slice(0, 10));
 }, 500));
 

@@ -4,14 +4,10 @@ import {renderUploadImage} from './upload-image.js';
 import {sendData} from '../utils/api.js';
 import {renderMessage} from '../utils/render-message.js';
 import {resetFilters} from '../map/filter.js';
-import {resetMap, resetMainPinMarker} from '../map/render-map.js';
+import {resetMap} from '../map/render-map.js';
+import {AVATAR_URL_DEFAULT, UploadFormMessage, SEND_URL} from '../utils/constants.js';
 
-const AVATAR_URL_DEFAULT = 'img/muffin-grey.svg';
-const SUCCESS_STATE = 'success';
-const SUCCESS_MESSAGE = 'Ваше объявление <br> успешно размещено!';
-const ERROR_STATE = 'error';
-const ERROR_MESSAGE = 'Ошибка размещения объявления';
-const ERROR_BUTTON_TEXT = 'Попробовать ещё раз';
+const {SUCCESS, ERROR} = UploadFormMessage;
 
 const adForm = document.querySelector('.ad-form');
 const adFormHeaderFieldset = document.querySelector('.ad-form-header');
@@ -23,7 +19,6 @@ const avatarPreview = document.querySelector('.ad-form-header__preview img');
 const imagesInput = document.querySelector('#images');
 const imagesPreviewElement = document.querySelector('.ad-form__photo');
 const imagesPreview = document.createElement('img');
-const SEND_URL = 'https://29.javascript.pages.academy/keksobooking';
 
 const disableAdForm = (isDisabled = true) => {
   if (isDisabled) {
@@ -64,10 +59,10 @@ const resetForm = () => {
   resetSlider();
   resetAvatarPreview();
   resetImagesPreview ();
-  resetMainPinMarker();
 };
 
-resetButton.addEventListener('click', () => {
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
   resetForm();
 });
 
@@ -76,29 +71,21 @@ const setSubmitButtonStatus = (state) => {
 };
 
 const onSuccess = () => {
-  console.log('ok');
-  //очистить форму
   resetForm();
-  //показать окно успеха
-  renderMessage(SUCCESS_STATE, SUCCESS_MESSAGE);
-  //paзблокировать кнопку
+  renderMessage(SUCCESS.state, SUCCESS.message);
   setSubmitButtonStatus(false);
 };
 
 const onError = () => {
-  console.log('error');
-  //показать окно ошибки
-  renderMessage(ERROR_STATE, ERROR_MESSAGE, ERROR_BUTTON_TEXT);
-  //paзблокировать кнопку
+  renderMessage(ERROR.state, ERROR.message, ERROR.buttonText);
   setSubmitButtonStatus(false);
 };
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+adForm.addEventListener('submit', (event) => {
+  event.preventDefault();
   if (validateAdForm()) {
-    //блокировать кнопку
     setSubmitButtonStatus(true);
-    sendData(SEND_URL, onSuccess, onError, new FormData(evt.target));
+    sendData(SEND_URL, onSuccess, onError, new FormData(event.target));
   }
 });
 
