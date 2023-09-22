@@ -26,8 +26,6 @@ const updateModel = (filter, value) => {
   } else {
     model[filter] = value;
   }
-
-  console.log(model);
 };
 
 const isPriceBelongRange = (range, price) => {
