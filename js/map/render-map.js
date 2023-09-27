@@ -1,12 +1,7 @@
 import {createCard} from './create-popup.js';
-import {START_COORDINATE, MapConfig, DECIMALS} from '../utils/constants.js';
+import {START_COORDINATE, PIN_URL, PIN_SIZE, MAIN_PIN_URL, MAIN_PIN_SIZE, MapConfig, DECIMALS} from '../utils/constants.js';
 
 const {TILE_LAYER, COPYRIGHT, MAP_ZOOM} = MapConfig;
-
-const PIN_URL = './img/pin.svg';
-const PIN_SIZE = 40;
-const MAIN_PIN_URL = './img/main-pin.svg';
-const MAIN_PIN_SIZE = 52;
 
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);

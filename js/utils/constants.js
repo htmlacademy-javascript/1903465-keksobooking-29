@@ -3,6 +3,11 @@ const START_COORDINATE = {
   lng: 139.73007
 };
 
+const PIN_URL = './img/pin.svg';
+const PIN_SIZE = 40;
+const MAIN_PIN_URL = './img/main-pin.svg';
+const MAIN_PIN_SIZE = 52;
+
 const MapConfig = {
   TILE_LAYER: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   COPYRIGHT: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -36,6 +41,10 @@ const PRICE_STEP = 1;
 
 export {
   START_COORDINATE,
+  PIN_URL,
+  PIN_SIZE,
+  MAIN_PIN_URL,
+  MAIN_PIN_SIZE,
   MapConfig,
   DECIMALS,
   FILE_TYPES,
